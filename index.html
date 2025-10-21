@@ -281,6 +281,23 @@
     // Anno corrente e lingua default
     document.getElementById('year').textContent = new Date().getFullYear();
     applyLang('it');
+
+    // Disattiva menu contestuale (tasto destro)
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target.matches('img, .profile-pic, .flag-icon, .icon-arrow, .icon-close')) {
+        e.preventDefault();
+      }
+    });
+
+    // Disattiva pressione prolungata su mobile (blocca “Salva immagine”)
+    document.addEventListener('touchstart', (e) => {
+      if (e.target.matches('img, .profile-pic, .flag-icon, .icon-arrow, .icon-close')) {
+        clearTimeout(window._pressTimer);
+        window._pressTimer = setTimeout(() => e.preventDefault(), 200);
+      }
+    });
+
+    document.addEventListener('touchend', () => clearTimeout(window._pressTimer));
   </script>
 </body>
 </html>
