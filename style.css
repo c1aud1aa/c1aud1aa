@@ -1,34 +1,38 @@
-
-:root{
-  --bg: #e1d0ff;            /* pastello tenue */
+:root {
+  --bg: #e1d0ff;
   --ink: #1e293b;
   --muted: #475569;
-  --card: #ffffffE6;
+  --card: #ffffffe6;
   --border: #f395eec2;
-  --accent: #6aa6ff;        /* usato solo per focus */
-  --gap-x: 72px;          /* lunghezza del “vuoto” orizzontale (top) dal bordo sinistro */
-  --gap-y: 72px;          /* lunghezza del “vuoto” verticale (left) dall’alto */
+  --accent: #6aa6ff;
+  --gap-x: 72px;
+  --gap-y: 72px;
   --corner-size: 96px;
 }
 
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body{
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
   color: var(--ink);
   background: var(--bg);
   overflow-x: hidden;
 }
 
-/* Emoji di sfondo diagonali – flusso continuo e seamless */
-.bg-emoji{
+.bg-emoji {
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: .3;
+  opacity: 0.3;
   pointer-events: none;
-  --tile: 320px;  /* dimensione del pattern */
+  --tile: 320px;
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'>\
   <rect width='320' height='320' fill='none'/>\
@@ -47,15 +51,22 @@ body{
   animation: bg-diag 20s linear infinite;
 }
 
-/* Il pattern si sposta di una “tessera” per ciclo: loop perfetto */
 @keyframes bg-diag {
-  from { background-position: 0 0; }
-  to   { background-position: -320px 320px; }  /* = -var(--tile) , var(--tile) */
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -320px 320px;
+  } /* = -var(--tile) , var(--tile) */
 }
 
-@keyframes drift{
-  0% { transform: translate3d(-5vw, -5vh, 0) rotate(0deg); }
-  100% { transform: translate3d(15vw, -15vh, 0) rotate(12deg); }
+@keyframes drift {
+  0% {
+    transform: translate3d(-5vw, -5vh, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(15vw, -15vh, 0) rotate(12deg);
+  }
 }
 
 .flag-icon {
@@ -65,122 +76,188 @@ body{
   border-radius: 2px;
 }
 
-/* Switch lingua */
-.lang-switch{ position: fixed; top: 14px; right: 16px; display: flex; gap: 8px; z-index: 10; }
-.lang-btn{ background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 6px 10px; cursor: pointer; font-weight: 600; display:flex; align-items:center; gap:6px; }
-.lang-btn[aria-pressed="true"]{ outline: 2px solid var(--accent); }
-.lang-btn:focus-visible{ outline: 3px solid var(--accent); }
+.lang-switch {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+.lang-btn {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lang-btn[aria-pressed="true"] {
+  outline: 2px solid var(--accent);
+}
+.lang-btn:focus-visible {
+  outline: 3px solid var(--accent);
+}
 
-/* Header */
-.hero{ display: grid; place-items: center; padding: 56px 16px 24px; text-align: center; }
-.hero h1{
-  font-family: 'Dancing Script', cursive; /* corsivo bold */
+.hero {
+  display: grid;
+  place-items: center;
+  padding: 56px 16px 24px;
+  text-align: center;
+}
+.hero h1 {
+  font-family: "Dancing Script", cursive;
   font-weight: 700;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   margin: 0 0 16px;
   font-size: clamp(36px, 7vw, 64px);
 }
-.profile-pic{
-  width: clamp(120px, 22vw, 180px); aspect-ratio: 1/1.3; object-fit: cover;
-  border-radius: 16px; border: 3px solid var(--border);
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+.profile-pic {
+  width: clamp(120px, 22vw, 180px);
+  aspect-ratio: 1/1.3;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 3px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Griglia carte */
-.container{ width:min(1100px, 92%); margin: 28px auto 80px; display:grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
+.container {
+  width: min(1100px, 92%);
+  margin: 28px auto 80px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
 
-.card{
+.card {
   position: relative;
   background: var(--card);
-  padding: 18px 16px 56px;   /* più spazio in basso per la freccia */
-  border-radius: 16px;       /* bordi stondati */
-  box-shadow: 0 8px 24px rgba(0,0,0,.06);
-  transition: transform .18s ease, box-shadow .18s ease;
-  cursor: default;           /* resta default; se vuoi tutta cliccabile usa 'pointer' */
+  padding: 18px 16px 56px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: default;
 }
-.card:hover{
+.card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 36px rgba(0,0,0,.10);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
 }
 
-/* Cornice continua tutto intorno */
-.card-border{
+.card-border {
   position: absolute;
   inset: 0;
   border: 2px solid var(--border);
-  border-radius: 16px;       /* deve combaciare con .card */
+  border-radius: 16px;
   pointer-events: none;
 }
 
-/* Immagine che si sovrappone alla cornice nell’angolo vuoto */
-.card-corner-img{
+.card-corner-img {
   position: absolute;
-  top: 8px;          /* regola per allinearla come preferisci */
+  top: 8px;
   left: 8px;
   width: var(--corner-size);
   height: var(--corner-size);
-  object-fit: contain;   /* o 'cover' se vuoi riempire */
-  z-index: 1;            /* sopra la cornice */
-  pointer-events: none;  /* così non interferisce con i click sulla card */
+  object-fit: contain;
+  z-index: 1;
+  pointer-events: none;
 }
 
-/* (Opzionale) se avevi il notch prima, eliminalo */
-.card-notch{ display: none !important; }
-.card-emoji{ position: absolute;
-  top: 8px;          /* regola per allinearla come preferisci */
+.card-notch {
+  display: none !important;
+}
+.card-emoji {
+  position: absolute;
+  top: 8px;
   left: 8px;
   width: var(--corner-size);
   height: var(--corner-size);
-  object-fit: contain;   /* o 'cover' se vuoi riempire */
-  z-index: 1;            /* sopra la cornice */
-  pointer-events: none;  /* così non interferisce con i click sulla card */ 
+  object-fit: contain;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.card-title{ margin: 4px 0 6px; font-size: 20px; font-weight: 700; }
-.card-desc{ margin: 0 0 12px; color: var(--muted); line-height: 1.45; }
-.card-open{ align-self:end; background:#fff; border:1.5px solid var(--border); padding:8px 10px; font-weight:600; cursor:pointer; }
-.card-open:focus-visible{ outline: 3px solid var(--accent); }
+.card-title {
+  margin: 4px 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.card-desc {
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.card-open {
+  align-self: end;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  padding: 8px 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.card-open:focus-visible {
+  outline: 3px solid var(--accent);
+}
 
-/* Modale con zoom */
-.modal{
+.modal {
   position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
   pointer-events: none;
-  z-index: 1000; /* > 10 della lang-switch */
+  z-index: 1000;
 }
-.modal[data-open="true"]{
+.modal[data-open="true"] {
   pointer-events: auto;
 }
-.modal-backdrop{
+.modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.35);
+  background: rgba(0, 0, 0, 0.35);
   opacity: 0;
-  transition: opacity .25s ease;
-  z-index: 0; /* SOTTO */
+  transition: opacity 0.25s ease;
+  z-index: 0;
 }
-.modal[data-open="true"] .modal-backdrop{ opacity:1; }
+.modal[data-open="true"] .modal-backdrop {
+  opacity: 1;
+}
 
-.modal-content{
+.modal-content {
   position: relative;
-  z-index: 1; /* SOPRA */
+  z-index: 1;
   background: #fff;
   width: min(860px, 92%);
   border-radius: 16px;
   border: 2px solid var(--border);
-  transform: scale(.92);
+  transform: scale(0.92);
   opacity: 0;
-  transition: transform .22s ease, opacity .22s ease;
-  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
-.modal[data-open="true"] .modal-content{ transform: scale(1); opacity:1; }
-.modal-body{ padding: 40px 18px 18px; }
-.modal-body h3{ margin: 10px 0 8px; font-size: 24px; }
-.modal-body p{ margin: 0 0 10px; color: var(--muted); }
-.modal-body ul{ margin: 0; padding-left: 18px; }
-.modal-body li{ margin: 6px 0; }
+.modal[data-open="true"] .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+.modal-body {
+  padding: 45px 18px 18px;
+}
+.modal-body h3 {
+  margin: 10px 0 8px;
+  font-size: 24px;
+}
+.modal-body p {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+.modal-body ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.modal-body li {
+  margin: 6px 0;
+}
 .modal-close {
   position: absolute;
   top: 12px;
@@ -193,7 +270,7 @@ body{
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .modal-close img.icon-close {
@@ -204,17 +281,23 @@ body{
 
 .modal-close:hover {
   transform: scale(1.08);
-  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 .modal-close:focus-visible {
   outline: 3px solid var(--accent);
 }
 
-.footer{ display:grid; place-items:center; padding: 36px 16px 24px; color: var(--muted); }
+.footer {
+  display: grid;
+  place-items: center;
+  padding: 36px 16px 24px;
+  color: var(--muted);
+}
 
-/* Rispetto preferenze utente */
-@media (prefers-reduced-motion: reduce){
-  .bg-emoji { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .bg-emoji {
+    animation: none;
+  }
 }
 
 .arrow-btn {
@@ -229,7 +312,8 @@ body{
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .arrow-btn img.icon-arrow {
@@ -240,13 +324,13 @@ body{
 
 .arrow-btn:hover {
   transform: scale(1.06);
-  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 .arrow-btn:focus-visible {
   outline: 3px solid var(--accent);
 }
 
-.no-drag{
+.no-drag {
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -256,15 +340,39 @@ body{
   user-select: none;
 }
 
-/* 🔧 Disattiva il lampeggio blu su mobile */
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-focus-ring-color: transparent;
   outline: none;
 }
-/* 🚫 Impedisce la selezione e la copia del testo in tutto il sito */
+
 * {
   user-select: none;
-  -webkit-user-select: none;  /* Safari / iOS */
-  -ms-user-select: none;      /* vecchi Edge/IE */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;          
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  margin: 0;
+}
+
+main {
+  flex: 0;  
+}
+
+.footer {
+  text-align: center;
+  padding: 10px 0 14px;
+  font-size: 0.9rem;
+  color: #444;
+  background: none;       
+  border: none;           
 }

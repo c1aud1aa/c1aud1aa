@@ -1,303 +1,156 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio Claudia</title>
-  <link rel="shortcut icon" href="asset/favicon.ico" type="image/x-icon">
-  <!-- Google Fonts: corsivo in grassetto -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Portfolio Claudia</title>
+      <link rel="shortcut icon" href="asset/favicon.ico" type="image/x-icon" />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600;700&display=swap"
+         rel="stylesheet"
+      />
+      <link rel="stylesheet" href="style.css" />
+   </head>
+   <body>
+      <div class="bg-emoji"></div>
 
-  <!-- Emoji di sfondo (versione a flusso continuo) -->
-<div class="bg-emoji"></div>
-
- 
-  <!-- Barra lingua -->
-<div class="lang-switch" aria-label="Selettore lingua">
-  <button class="lang-btn" data-lang="it" aria-pressed="true">
-    <img src="asset/bandieraitalia.png" alt="Bandiera italiana" class="flag-icon no-drag" draggable="false"/>
-    <span>IT</span>
-  </button>
-  <button class="lang-btn" data-lang="en">
-    <img src="asset/bandierainglese.png" alt="Bandiera inglese" class="flag-icon no-drag" draggable="false"/>
-    <span>EN</span>
-  </button>
-</div>
-
-
-  <!-- Header con nome e foto -->
-  <header class="hero" role="banner">
-    <h1 id="student-name">Claudia Stefanelli</h1>
-    <img src="asset/profilo.jpeg" alt="Foto profilo di Nome Cognome" class="profile-pic no-drag" draggable="false"/>
-  </header>
-
-  <!-- Sezione carte tirocini -->
-  <main class="container" id="internships" aria-live="polite">
-    <!-- Esempi di riquadri. Duplica/edita secondo necessità.  -->
-    <article class="card" data-id="cardio">
-      <div class="card-border"></div>
-      <h2 class="card-title" data-i18n="cardio.title">Cardiologia</h2>
-      <p class="card-desc" data-i18n="cardio.desc">
-        Assistenza al paziente cardiopatico, gestione parametri vitali, ECG di base, educazione sanitaria.
-      </p>
-      <button class="card-open arrow-btn" data-i18n="common.open">
-        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow no-drag" draggable="false"/>
-      </button>
-    </article>
-
-    <article class="card" data-id="surgery">
-      <div class="card-border"></div>
-      <h2 class="card-title" data-i18n="surgery.title">Chirurgia Generale</h2>
-      <p class="card-desc" data-i18n="surgery.desc">
-        Medicazioni, gestione drenaggi, preparazione pre-operatoria, controllo dolore post-operatorio.
-      </p>
-      <button class="card-open arrow-btn" data-i18n="common.open">
-        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow no-drag" draggable="false"/>
-      </button>
-    </article>
-
-    <article class="card" data-id="hematology">
-      <div class="card-border"></div>
-      <h2 class="card-title" data-i18n="hematology.title">Ematologia</h2>
-      <p class="card-desc" data-i18n="hematology.desc">
-        Prelievi venosi, emocomponenti, prevenzione infezioni, supporto a pazienti in terapia.
-      </p>
-      <button class="card-open arrow-btn" data-i18n="common.open">
-        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow no-drag" draggable="false"/>
-      </button>
-    </article>
-
-    <article class="card" data-id="genetics">
-      <div class="card-border"></div>
-      <h2 class="card-title" data-i18n="genetics.title">Genetica/Day Hospital</h2>
-      <p class="card-desc" data-i18n="genetics.desc">
-        Accoglienza, raccolta anamnestica, counselling di base, follow‑up ambulatoriale.
-      </p>
-      <button class="card-open arrow-btn" data-i18n="common.open">
-        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow no-drag" draggable="false"/>
-      </button>
-    </article>
-  </main>
-
-  <!-- Modale dettagli con effetto zoom -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-content" role="document">
-      <button class="modal-close" aria-label="Chiudi dettagli">
-        <img src="asset/close-cross-svgrepo-com (1).svg" alt="" class="icon-close no-drag" draggable="false"/>
-      </button>
-      <div class="modal-body">
-        <h3 id="modal-title">Titolo</h3>
-        <p id="modal-text">Testo dettagli.</p>
-        <ul id="modal-list"></ul>
+      <div class="lang-switch" aria-label="Selettore lingua">
+         <button class="lang-btn" data-lang="it" aria-pressed="true">
+            <img
+               src="asset/bandieraitalia.png"
+               alt="Bandiera italiana"
+               class="flag-icon no-drag"
+               draggable="false"
+            />
+            <span>IT</span>
+         </button>
+         <button class="lang-btn" data-lang="en">
+            <img
+               src="asset/bandierainglese.png"
+               alt="Bandiera inglese"
+               class="flag-icon no-drag"
+               draggable="false"
+            />
+            <span>EN</span>
+         </button>
       </div>
-    </div>
-    <div class="modal-backdrop" aria-hidden="true"></div>
-  </div>
 
-  <footer class="footer">
-    <small>© <span id="year"></span> <span id="footer-name">Nome Cognome</span></small>
-  </footer>
+      <header class="hero" role="banner">
+         <h1 id="student-name">Claudia Stefanelli</h1>
+         <img
+            src="asset/profilo.jpeg"
+            alt="Foto profilo di Nome Cognome"
+            class="profile-pic no-drag"
+            draggable="false"
+         />
+      </header>
 
-  <script>
-    // Contenuti IT/EN
-    const I18N = {
-      it: {
-        name: 'Claudia Stefanelli',
-        common: { open: '→', openLabel: 'Apri' },
-        cardio: {
-          title: 'Cardiologia',
-          desc: 'Assistenza al paziente cardiopatico, gestione parametri vitali, ECG di base, educazione sanitaria.',
-          modalTitle: 'Tirocinio in Cardiologia',
-          modalText: 'Attività principali svolte:',
-          bullets: [
-            'Monitoraggio parametri e gestione early warning scores',
-            'Esecuzione ECG di base e interpretazione preliminare',
-            'Educazione alla terapia e stili di vita',
-          ],
-        },
-        surgery: {
-          title: 'Chirurgia Generale',
-          desc: 'Medicazioni, gestione drenaggi, preparazione pre-operatoria, controllo dolore post-operatorio.',
-          modalTitle: 'Tirocinio in Chirurgia Generale',
-          modalText: 'Competenze acquisite:',
-          bullets: [
-            'Tecniche di medicazione e gestione ferite',
-            'Gestione drenaggi e prevenzione complicanze',
-            'Analgesia e scale del dolore',
-          ],
-        },
-        hematology: {
-          title: 'Ematologia',
-          desc: 'Prelievi venosi, emocomponenti, prevenzione infezioni, supporto a pazienti in terapia.',
-          modalTitle: 'Tirocinio in Ematologia',
-          modalText: 'Attività principali:',
-          bullets: [
-            'Prelievi venosi ed emocolture in asepsi',
-            'Gestione e trasfusione di emocomponenti',
-            'Educazione alla prevenzione delle infezioni',
-          ],
-        },
-        genetics: {
-          title: 'Genetica/Day Hospital',
-          desc: 'Accoglienza, raccolta anamnestica, counselling di base, follow‑up ambulatoriale.',
-          modalTitle: 'Tirocinio in Genetica / Day Hospital',
-          modalText: 'Cosa ho fatto:',
-          bullets: [
-            'Accoglienza e triage infermieristico',
-            'Raccolta dati e anamnesi infermieristica',
-            'Follow‑up e gestione appuntamenti',
-          ],
-        },
-      },
-      en: {
-        name: 'Claudia Stefanelli',
-        common: { open: '→', openLabel: 'Open' },
-        cardio: {
-          title: 'Cardiology',
-          desc: 'Cardiac patient care, vital signs, basic ECG, health education.',
-          modalTitle: 'Internship in Cardiology',
-          modalText: 'Main activities performed:',
-          bullets: [
-            'Monitoring vitals and early warning scores',
-            'Basic ECG execution and preliminary reading',
-            'Therapy education and lifestyle counselling',
-          ],
-        },
-        surgery: {
-          title: 'General Surgery',
-          desc: 'Dressings, drain management, pre‑op preparation, post‑op pain control.',
-          modalTitle: 'Internship in General Surgery',
-          modalText: 'Skills gained:',
-          bullets: [
-            'Wound care and dressing techniques',
-            'Drain management and complication prevention',
-            'Analgesia and pain scales',
-          ],
-        },
-        hematology: {
-          title: 'Hematology',
-          desc: 'Venipuncture, blood components, infection prevention, therapy support.',
-          modalTitle: 'Internship in Hematology',
-          modalText: 'Key activities:',
-          bullets: [
-            'Venipuncture and blood cultures with asepsis',
-            'Handling and transfusion of blood components',
-            'Education on infection prevention',
-          ],
-        },
-        genetics: {
-          title: 'Genetics/Day Hospital',
-          desc: 'Reception, history taking, basic counselling, outpatient follow‑up.',
-          modalTitle: 'Internship in Genetics / Day Hospital',
-          modalText: 'What I did:',
-          bullets: [
-            'Reception and nursing triage',
-            'Data collection and nursing history',
-            'Follow‑up and appointment management',
-          ],
-        },
-      }
-    };
+      <main class="container" id="internships" aria-live="polite">
+         <article class="card" data-id="cardio">
+            <div class="card-border"></div>
+            <h2 class="card-title" data-i18n="cardio.title">Cardiologia</h2>
+            <p class="card-desc" data-i18n="cardio.desc">
+               Assistenza al paziente cardiopatico, gestione parametri vitali,
+               ECG di base, educazione sanitaria.
+            </p>
+            <button class="card-open arrow-btn" data-i18n="common.open">
+               <img
+                  src="asset/right-arrow-svgrepo-com.svg"
+                  alt=""
+                  class="icon-arrow no-drag"
+                  draggable="false"
+               />
+            </button>
+         </article>
 
-    // Stato lingua
-    let currentLang = 'it';
+         <article class="card" data-id="surgery">
+            <div class="card-border"></div>
+            <h2 class="card-title" data-i18n="surgery.title">
+               Chirurgia Generale
+            </h2>
+            <p class="card-desc" data-i18n="surgery.desc">
+               Medicazioni, gestione drenaggi, preparazione pre-operatoria,
+               controllo dolore post-operatorio.
+            </p>
+            <button class="card-open arrow-btn" data-i18n="common.open">
+               <img
+                  src="asset/right-arrow-svgrepo-com.svg"
+                  alt=""
+                  class="icon-arrow no-drag"
+                  draggable="false"
+               />
+            </button>
+         </article>
 
-    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+         <article class="card" data-id="hematology">
+            <div class="card-border"></div>
+            <h2 class="card-title" data-i18n="hematology.title">Ematologia</h2>
+            <p class="card-desc" data-i18n="hematology.desc">
+               Prelievi venosi, emocomponenti, prevenzione infezioni, supporto a
+               pazienti in terapia.
+            </p>
+            <button class="card-open arrow-btn" data-i18n="common.open">
+               <img
+                  src="asset/right-arrow-svgrepo-com.svg"
+                  alt=""
+                  class="icon-arrow no-drag"
+                  draggable="false"
+               />
+            </button>
+         </article>
 
-    function applyLang(lang) {
-      currentLang = lang;
-      document.documentElement.lang = lang;
-      const dict = I18N[lang];
-      // Nome
-      document.getElementById('student-name').textContent = dict.name;
-      document.getElementById('footer-name').textContent = dict.name;
-      // Bottoni lingua ARIA
-      $$('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
-      // Carte
-      $$('.card').forEach(card => {
-        const id = card.dataset.id; // cardio, surgery, ...
-        card.querySelector('.card-title').textContent = dict[id].title;
-        card.querySelector('.card-desc').textContent = dict[id].desc;
-        const openBtn = card.querySelector('.card-open');
-        if (openBtn.querySelector('img')) {
-          // c'è l’icona SVG: non toccare l’HTML, aggiorna solo l’aria-label
-          openBtn.setAttribute('aria-label', `${dict[id].title} — ${dict.common.openLabel}`);
-        } else {
-          // non c’è icona: usa testo localizzato
-          openBtn.textContent = dict.common.openLabel || dict.common.open;
-        }
-      });
-    }
+         <article class="card" data-id="genetics">
+            <div class="card-border"></div>
+            <h2 class="card-title" data-i18n="genetics.title">
+               Genetica/Day Hospital
+            </h2>
+            <p class="card-desc" data-i18n="genetics.desc">
+               Accoglienza, raccolta anamnestica, counselling di base, follow‑up
+               ambulatoriale.
+            </p>
+            <button class="card-open arrow-btn" data-i18n="common.open">
+               <img
+                  src="asset/right-arrow-svgrepo-com.svg"
+                  alt=""
+                  class="icon-arrow no-drag"
+                  draggable="false"
+               />
+            </button>
+         </article>
+      </main>
 
-    // Modale: apri/chiudi con zoom
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalText = document.getElementById('modal-text');
-    const modalList = document.getElementById('modal-list');
+      <div
+         class="modal"
+         id="modal"
+         role="dialog"
+         aria-modal="true"
+         aria-hidden="true"
+      >
+         <div class="modal-content" role="document">
+            <button class="modal-close" aria-label="Chiudi dettagli">
+               <img
+                  src="asset/close-cross-svgrepo-com (1).svg"
+                  alt=""
+                  class="icon-close no-drag"
+                  draggable="false"
+               />
+            </button>
+            <div class="modal-body">
+               <h3 id="modal-title">Titolo</h3>
+               <p id="modal-text">Testo dettagli.</p>
+               <ul id="modal-list"></ul>
+            </div>
+         </div>
+         <div class="modal-backdrop" aria-hidden="true"></div>
+      </div>
 
-    function openModal(cardId) {
-      const d = I18N[currentLang][cardId];
-      modalTitle.textContent = d.modalTitle;
-      modalText.textContent = d.modalText;
-      modalList.innerHTML = d.bullets.map(item => `<li>${item}</li>`).join('');
-      modal.dataset.open = 'true';
-      modal.removeAttribute('aria-hidden');
-      document.body.style.overflow = 'hidden';
-    }
+      <footer class="footer">
+         <small
+            >© <span id="year"></span>
+            <span id="footer-name">Nome Cognome</span></small
+         >
+      </footer>
 
-    function closeModal() {
-      modal.dataset.open = 'false';
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    // Eventi
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.card-open');
-      if (btn) {
-        const card = btn.closest('.card');
-        openModal(card.dataset.id);
-      }
-      if (e.target.closest('.modal-close')) {
-        closeModal();
-      }
-      if (e.target.classList.contains('modal-backdrop')) {
-        closeModal();
-      }
-      const langBtn = e.target.closest('.lang-btn');
-      if (langBtn) {
-        applyLang(langBtn.dataset.lang);
-      }
-    });
-
-    // ESC per chiudere
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.dataset.open === 'true') closeModal();
-    });
-
-    // Anno corrente e lingua default
-    document.getElementById('year').textContent = new Date().getFullYear();
-    applyLang('it');
-
-    // Disattiva menu contestuale (tasto destro)
-    document.addEventListener('contextmenu', (e) => {
-      if (e.target.matches('img, .profile-pic, .flag-icon, .icon-arrow, .icon-close')) {
-        e.preventDefault();
-      }
-    });
-
-    // Disattiva pressione prolungata su mobile (blocca “Salva immagine”)
-    document.addEventListener('touchstart', (e) => {
-      if (e.target.matches('img, .profile-pic, .flag-icon, .icon-arrow, .icon-close')) {
-        clearTimeout(window._pressTimer);
-        window._pressTimer = setTimeout(() => e.preventDefault(), 200);
-      }
-    });
-
-    document.addEventListener('touchend', () => clearTimeout(window._pressTimer));
-  </script>
-</body>
+      <script src="script.js"></script>
+   </body>
 </html>
