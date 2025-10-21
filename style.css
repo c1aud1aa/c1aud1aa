@@ -255,3 +255,16 @@ body{
   -o-user-drag: none;
   user-select: none;
 }
+
+/* 🔧 Disattiva il lampeggio blu su mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;
+  outline: none;
+}
+/* 🚫 Impedisce la selezione e la copia del testo in tutto il sito */
+* {
+  user-select: none;
+  -webkit-user-select: none;  /* Safari / iOS */
+  -ms-user-select: none;      /* vecchi Edge/IE */
+}
