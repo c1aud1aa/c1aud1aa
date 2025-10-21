@@ -287,13 +287,6 @@ body {
   outline: 3px solid var(--accent);
 }
 
-.footer {
-  display: grid;
-  place-items: center;
-  padding: 36px 16px 24px;
-  color: var(--muted);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .bg-emoji {
     animation: none;
@@ -374,5 +367,6 @@ main {
   font-size: 0.9rem;
   color: #444;
   background: none;       
-  border: none;           
+  border: none;   
+  margin-top: -50px;
 }
