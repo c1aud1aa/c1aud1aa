@@ -176,8 +176,8 @@ body{
   box-shadow: 0 20px 60px rgba(0,0,0,.25);
 }
 .modal[data-open="true"] .modal-content{ transform: scale(1); opacity:1; }
-.modal-body{ padding: 22px 18px 18px; }
-.modal-body h3{ margin: 0 0 8px; font-size: 24px; }
+.modal-body{ padding: 40px 18px 18px; }
+.modal-body h3{ margin: 10px 0 8px; font-size: 24px; }
 .modal-body p{ margin: 0 0 10px; color: var(--muted); }
 .modal-body ul{ margin: 0; padding-left: 18px; }
 .modal-body li{ margin: 6px 0; }
