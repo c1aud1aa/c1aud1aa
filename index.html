@@ -43,8 +43,8 @@
       <p class="card-desc" data-i18n="cardio.desc">
         Assistenza al paziente cardiopatico, gestione parametri vitali, ECG di base, educazione sanitaria.
       </p>
-      <button class="card-open arrow-btn" data-i18n="common.open" data-no-text>
-        →
+      <button class="card-open arrow-btn" data-i18n="common.open">
+        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow" />
       </button>
     </article>
 
@@ -54,8 +54,8 @@
       <p class="card-desc" data-i18n="surgery.desc">
         Medicazioni, gestione drenaggi, preparazione pre-operatoria, controllo dolore post-operatorio.
       </p>
-      <button class="card-open arrow-btn" data-i18n="common.open" data-no-text>
-        →
+      <button class="card-open arrow-btn" data-i18n="common.open">
+        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow" />
       </button>
     </article>
 
@@ -65,8 +65,8 @@
       <p class="card-desc" data-i18n="hematology.desc">
         Prelievi venosi, emocomponenti, prevenzione infezioni, supporto a pazienti in terapia.
       </p>
-      <button class="card-open arrow-btn" data-i18n="common.open" data-no-text>
-        →
+      <button class="card-open arrow-btn" data-i18n="common.open">
+        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow" />
       </button>
     </article>
 
@@ -76,8 +76,8 @@
       <p class="card-desc" data-i18n="genetics.desc">
         Accoglienza, raccolta anamnestica, counselling di base, follow‑up ambulatoriale.
       </p>
-      <button class="card-open arrow-btn" data-i18n="common.open" data-no-text>
-        →
+      <button class="card-open arrow-btn" data-i18n="common.open">
+        <img src="asset/right-arrow-svgrepo-com.svg" alt="" class="icon-arrow" />
       </button>
     </article>
   </main>
@@ -85,7 +85,9 @@
   <!-- Modale dettagli con effetto zoom -->
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content" role="document">
-      <button class="modal-close" aria-label="Chiudi dettagli">➚</button>
+      <button class="modal-close" aria-label="Chiudi dettagli">
+        <img src="asset/close-cross-svgrepo-com (1).svg" alt="" class="icon-close" />
+      </button>
       <div class="modal-body">
         <h3 id="modal-title">Titolo</h3>
         <p id="modal-text">Testo dettagli.</p>
@@ -104,7 +106,7 @@
     const I18N = {
       it: {
         name: 'Claudia Stefanelli',
-        common: { open: '→' },
+        common: { open: '→', openLabel: 'Apri' },
         cardio: {
           title: 'Cardiologia',
           desc: 'Assistenza al paziente cardiopatico, gestione parametri vitali, ECG di base, educazione sanitaria.',
@@ -152,7 +154,7 @@
       },
       en: {
         name: 'Claudia Stefanelli',
-        common: { open: '→' },
+        common: { open: '→', openLabel: 'Open' },
         cardio: {
           title: 'Cardiology',
           desc: 'Cardiac patient care, vital signs, basic ECG, health education.',
@@ -219,7 +221,14 @@
         const id = card.dataset.id; // cardio, surgery, ...
         card.querySelector('.card-title').textContent = dict[id].title;
         card.querySelector('.card-desc').textContent = dict[id].desc;
-        card.querySelector('.card-open').textContent = dict.common.open;
+        const openBtn = card.querySelector('.card-open');
+        if (openBtn.querySelector('img')) {
+          // c'è l’icona SVG: non toccare l’HTML, aggiorna solo l’aria-label
+          openBtn.setAttribute('aria-label', `${dict[id].title} — ${dict.common.openLabel}`);
+        } else {
+          // non c’è icona: usa testo localizzato
+          openBtn.textContent = dict.common.openLabel || dict.common.open;
+        }
       });
     }
 

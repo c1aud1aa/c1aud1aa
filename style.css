@@ -181,8 +181,34 @@ body{
 .modal-body p{ margin: 0 0 10px; color: var(--muted); }
 .modal-body ul{ margin: 0; padding-left: 18px; }
 .modal-body li{ margin: 6px 0; }
-.modal-close{ position:absolute; top:10px; right:10px; background:#fff; border:1.5px solid var(--border); border-radius: 999px; width:32px; height:32px; display:grid; place-items:center; cursor:pointer; font-size:16px; transform: rotate(45deg); }
-.modal-close:focus-visible{ outline: 3px solid var(--accent); }
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.modal-close img.icon-close {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.modal-close:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+}
+.modal-close:focus-visible {
+  outline: 3px solid var(--accent);
+}
 
 .footer{ display:grid; place-items:center; padding: 36px 16px 24px; color: var(--muted); }
 
@@ -191,25 +217,31 @@ body{
   .bg-emoji { animation: none; }
 }
 
-.arrow-btn{
+.arrow-btn {
   position: absolute;
   right: 12px;
   bottom: 12px;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
   border: 1.5px solid var(--border);
   background: #fff;
   display: grid;
   place-items: center;
-  font-size: 20px;
-  line-height: 1;
   cursor: pointer;
   transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
-/* micro feedback all’hover/focus */
-.arrow-btn:hover{ transform: scale(1.06); box-shadow: 0 6px 14px rgba(0,0,0,.10); }
-.arrow-btn:focus-visible{ outline: 3px solid var(--accent); }
 
-/* Se vuoi rimuovere il testo localizzato 'Apri' dal bottone, usiamo un data-attr */
-.arrow-btn[data-no-text]::after{ content: ""; } /* garantisce solo la freccia come contenuto */
+.arrow-btn img.icon-arrow {
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+}
+
+.arrow-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+}
+.arrow-btn:focus-visible {
+  outline: 3px solid var(--accent);
+}
