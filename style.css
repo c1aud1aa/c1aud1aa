@@ -184,11 +184,6 @@ body {
   font-size: 20px;
   font-weight: 700;
 }
-.card-desc {
-  margin: 0 0 12px;
-  color: var(--muted);
-  line-height: 1.45;
-}
 .card-open {
   align-self: end;
   background: #fff;
@@ -369,4 +364,11 @@ main {
   background: none;       
   border: none;   
   margin-top: -50px;
+}
+
+#modal-list-activities {
+  margin-bottom: 20px;
+}
+#modal-text-activities {
+  margin-top: 15px;
 }
