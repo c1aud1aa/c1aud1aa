@@ -1,9 +1,11 @@
 const I18N = {
     it: {
         name: 'Claudia Stefanelli',
+        title: 'Infermiera',
         common: {
             open: '→',
-            openLabel: 'Apri'
+            openLabel: 'Apri',
+            collaboration: 'In collaborazione con Dott. Andrea Perozzo'
         },
         assistenza: {
             title: 'Assistenza Domiciliare',
@@ -264,9 +266,11 @@ const I18N = {
     },
     en: {
         name: 'Claudia Stefanelli',
+        title: 'Registered Nurse',
         common: {
             open: '→',
-            openLabel: 'Open'
+            openLabel: 'Open',
+            collaboration: 'In collaboration with Doc. Andrea Perozzo'
         },
         assistenza: {
             title: 'Home Care',
@@ -537,7 +541,8 @@ function applyLang(lang) {
     const dict = I18N[lang];
 
     document.getElementById('student-name').textContent = dict.name;
-    document.getElementById('footer-name').textContent = dict.name;
+    document.getElementById('title-study').textContent = dict.title;
+    document.getElementById('footer-name').textContent = dict.name + ` - ` + dict.common.collaboration;
 
     $$('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
 
