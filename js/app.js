@@ -1,5 +1,6 @@
 import { UI, CONTACT, EXPERIENCE, EDUCATION, PUBLICATION, SKILLS } from './content.js';
 import { TIROCINI } from './tirocini.js';
+import { art, TINT } from './illustrations.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -98,6 +99,7 @@ const TPL = {
       <ol class="rail exp-rail" data-rail>
         ${EXPERIENCE.map((e) => `
           <li class="card exp lift ${e.current ? 'is-current' : ''}" data-a>
+            <div class="card-art tint-${e.tint}">${art(e.art)}</div>
             <p class="exp-period"><span>${pick(e.period, lang)}</span>${e.current ? `<span class="exp-now">${t.now}</span>` : ''}</p>
             <h3>${pick(e.role, lang)}</h3>
             <p class="exp-org">${e.org ? `<b>${pick(e.org, lang)}</b> · ` : ''}${pick(e.place, lang)}</p>
@@ -116,9 +118,9 @@ const TPL = {
       <ul class="clin-grid" data-rail>
         ${TIROCINI.map((x, i) => `
           <li style="display:contents">
-            <button class="tile" type="button" data-tile="${i}" data-a aria-label="${x[lang].t} — ${t.open}">
-              <img src="assets/img/${x.img}.webp" alt="" width="640" height="400" loading="lazy" decoding="async">
-              <span class="chip chip-glass">${t.areas[x.area]}</span>
+            <button class="tile tint-${TINT[x.area]}" type="button" data-tile="${i}" data-a aria-label="${x[lang].t} — ${t.open}">
+              <span class="tile-art">${art(x.id)}</span>
+              <span class="chip chip-soft">${t.areas[x.area]}</span>
               <span class="tile-text"><span class="tile-title">${x[lang].t}</span></span>
               <span class="tile-go">${icon('arrow')}</span>
             </button>
@@ -135,13 +137,15 @@ const TPL = {
       <div class="rail edu-wrap" data-rail>
         ${EDUCATION.map((e) => `
           <article class="card edu lift" data-a>
-            <div class="edu-top"><span class="edu-type">${pick(e.type, lang)}</span>${e.status ? `<span class="edu-status">${pick(e.status, lang)}</span>` : ''}</div>
+            <div class="card-art tint-${e.tint}">${art(e.art)}</div>
+            <div class="edu-top"><span class="edu-type">${pick(e.type, lang)}</span>${e.status ? `<span class="edu-status">${icon('check')}${pick(e.status, lang)}</span>` : ''}</div>
             <h3>${pick(e.title, lang)}</h3>
             <p class="edu-org">${pick(e.org, lang)}</p>
             <p class="edu-period">${e.period}</p>
             <p class="desc">${pick(e.desc, lang)}</p>
           </article>`).join('')}
         <article class="card edu pub lift" data-a>
+          <div class="card-art">${art('pub')}</div>
           <div class="edu-top"><span class="edu-type">${icon('doc')}${t.pub}</span></div>
           <h3 lang="it">${PUBLICATION.title}</h3>
           <p class="edu-period">${PUBLICATION.date}</p>
@@ -529,8 +533,8 @@ let sheetIdx = 0, sheetFrom = null, closing = false;
 
 function fillSheet(i) {
   const x = TIROCINI[i], t = UI[lang].clin;
-  const img = $('.sheet-hero img', sheet);
-  img.src = `assets/img/${x.img}.webp`;
+  $('.sheet-hero', sheet).className = `sheet-hero tint-${TINT[x.area]}`;
+  $('.sheet-art', sheet).innerHTML = art(x.id);
   $('#sheet-title').textContent = x[lang].t;
   $('.sheet-area', sheet).textContent = `${x.id === 'blsd' ? t.course : t.placement} · ${t.areas[x.area]}`;
   $('#sp-a').innerHTML = x[lang].a.map((s) => `<li>${s}</li>`).join('');

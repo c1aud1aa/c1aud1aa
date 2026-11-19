@@ -13,11 +13,11 @@ export const UI = {
     nav: ['Home', 'Profilo', 'Esperienze', 'Tirocini', 'Formazione', 'Competenze', 'Contatti'],
     home: {
       eyebrow: 'Infermiera · Padova',
-      lead: 'Unisco il rigore dei protocolli clinici all’ascolto delle persone. Oggi infermiera di riferimento in reparto, domani specialista negli accessi vascolari.',
+      lead: 'Unisco il rigore dei protocolli clinici all’ascolto delle persone. Infermiera di riferimento in reparto, con un Master in impianto e gestione degli accessi vascolari.',
       cta1: 'Scopri il percorso',
       cta2: 'Contattami',
       badge1: 'In servizio · OPSA',
-      badge2: 'Master AVIG · 2026',
+      badge2: 'Master AVIG · Concluso',
       hintDesk: 'Rotella o ↑ ↓ per navigare',
       hintTouch: 'Swipe ↑ per iniziare',
       photoAlt: 'Ritratto di Claudia Stefanelli',
@@ -81,11 +81,11 @@ export const UI = {
     nav: ['Home', 'Profile', 'Experience', 'Placements', 'Education', 'Skills', 'Contact'],
     home: {
       eyebrow: 'Registered Nurse · Padua',
-      lead: 'I pair the rigour of clinical protocols with genuine listening. Today a reference nurse on the ward, tomorrow a vascular access specialist.',
+      lead: 'I pair the rigour of clinical protocols with genuine listening. Reference nurse on the ward, with a Master’s in vascular access placement and management.',
       cta1: 'Explore my journey',
       cta2: 'Get in touch',
       badge1: 'On duty · OPSA',
-      badge2: 'AVIG Master · 2026',
+      badge2: 'AVIG Master · Completed',
       hintDesk: 'Scroll or ↑ ↓ to navigate',
       hintTouch: 'Swipe ↑ to begin',
       photoAlt: 'Portrait of Claudia Stefanelli',
@@ -149,6 +149,7 @@ export const UI = {
 export const EXPERIENCE = [
   {
     current: true,
+    art: 'opsa', tint: 'lav',
     period: { it: 'Feb 2026 — oggi', en: 'Feb 2026 — now' },
     role: { it: 'Infermiera', en: 'Registered Nurse' },
     org: 'OPSA',
@@ -167,6 +168,7 @@ export const EXPERIENCE = [
     },
   },
   {
+    art: 'gym', tint: 'rose',
     period: { it: '2019 — 2022', en: '2019 — 2022' },
     role: { it: 'Istruttrice di ginnastica ritmica', en: 'Rhythmic gymnastics coach' },
     place: { it: 'Padova', en: 'Padua' },
@@ -184,6 +186,7 @@ export const EXPERIENCE = [
     },
   },
   {
+    art: 'desk', tint: 'peri',
     period: { it: '2021', en: '2021' },
     role: { it: 'Receptionist', en: 'Receptionist' },
     org: 'Canale Italia',
@@ -202,6 +205,7 @@ export const EXPERIENCE = [
     },
   },
   {
+    art: 'aid', tint: 'rose',
     period: { it: '2014 — 2018', en: '2014 — 2018' },
     role: { it: 'Volontaria', en: 'Volunteer' },
     org: { it: 'Croce Rossa Italiana', en: 'Italian Red Cross' },
@@ -223,17 +227,19 @@ export const EXPERIENCE = [
 
 export const EDUCATION = [
   {
+    art: 'avig', tint: 'peri',
     type: { it: 'Master di I livello', en: 'First-level Master’s' },
     title: { it: 'AVIG — Accessi vascolari', en: 'AVIG — Vascular access' },
     org: { it: 'Università degli Studi di Padova', en: 'University of Padua' },
     period: '10/2025 — 10/2026',
-    status: { it: 'In corso', en: 'In progress' },
+    status: { it: 'Concluso', en: 'Completed' },
     desc: {
       it: 'Impianto e gestione degli accessi vascolari: PICC, Midline e dispositivi a lungo termine.',
       en: 'Placement and management of vascular access devices: PICC, Midline and long-term lines.',
     },
   },
   {
+    art: 'nursing', tint: 'lav',
     type: { it: 'Laurea triennale', en: 'Bachelor’s degree' },
     title: { it: 'Infermieristica', en: 'Nursing' },
     org: { it: 'Università degli Studi di Padova', en: 'University of Padua' },
@@ -244,6 +250,7 @@ export const EDUCATION = [
     },
   },
   {
+    art: 'liceo', tint: 'rose',
     type: { it: 'Diploma', en: 'High-school diploma' },
     title: { it: 'Scienze Umane, opz. Economico-Sociale', en: 'Human Sciences, Economics & Social' },
     org: { it: 'Liceo Duca d’Aosta, Padova', en: 'Liceo Duca d’Aosta, Padua' },

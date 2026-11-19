@@ -1,7 +1,6 @@
 export const TIROCINI = [
  {
   "id": "terapia",
-  "img": "terapia",
   "area": "critical",
   "it": {
    "t": "Terapia Intensiva di Cardiochirurgia",
@@ -46,7 +45,6 @@ export const TIROCINI = [
  },
  {
   "id": "impianto",
-  "img": "picc",
   "area": "vascular",
   "it": {
    "t": "Impianto di PICC e Midline",
@@ -89,7 +87,6 @@ export const TIROCINI = [
  },
  {
   "id": "day",
-  "img": "day",
   "area": "onco",
   "it": {
    "t": "Day Hospital Oncologico",
@@ -124,7 +121,6 @@ export const TIROCINI = [
  },
  {
   "id": "centro",
-  "img": "centro",
   "area": "critical",
   "it": {
    "t": "Centro Grandi Ustionati",
@@ -157,7 +153,6 @@ export const TIROCINI = [
  },
  {
   "id": "cardio",
-  "img": "cardiologia",
   "area": "medicine",
   "it": {
    "t": "Cardiologia",
@@ -190,7 +185,6 @@ export const TIROCINI = [
  },
  {
   "id": "chirurgia",
-  "img": "chirurgia",
   "area": "surgery",
   "it": {
    "t": "Chirurgia Vascolare",
@@ -223,7 +217,6 @@ export const TIROCINI = [
  },
  {
   "id": "ortopedia",
-  "img": "ortopedia",
   "area": "surgery",
   "it": {
    "t": "Ortopedia",
@@ -256,7 +249,6 @@ export const TIROCINI = [
  },
  {
   "id": "fisiopatologia",
-  "img": "fisio",
   "area": "medicine",
   "it": {
    "t": "Fisiopatologia Respiratoria",
@@ -291,7 +283,6 @@ export const TIROCINI = [
  },
  {
   "id": "nefrologia",
-  "img": "nefrologia",
   "area": "peds",
   "it": {
    "t": "Nefrologia Pediatrica",
@@ -324,7 +315,6 @@ export const TIROCINI = [
  },
  {
   "id": "psichiatria",
-  "img": "psichiatria",
   "area": "mental",
   "it": {
    "t": "Psichiatria",
@@ -357,7 +347,6 @@ export const TIROCINI = [
  },
  {
   "id": "comunita",
-  "img": "comunita",
   "area": "mental",
   "it": {
    "t": "Comunità Terapeutica Protetta",
@@ -390,7 +379,6 @@ export const TIROCINI = [
  },
  {
   "id": "assistenza",
-  "img": "assistenza",
   "area": "community",
   "it": {
    "t": "Assistenza Domiciliare",
@@ -425,7 +413,6 @@ export const TIROCINI = [
  },
  {
   "id": "punto",
-  "img": "punto",
   "area": "lab",
   "it": {
    "t": "Punto Prelievi",
@@ -458,7 +445,6 @@ export const TIROCINI = [
  },
  {
   "id": "blsd",
-  "img": "blsd",
   "area": "emergency",
   "it": {
    "t": "Corso BLSD",

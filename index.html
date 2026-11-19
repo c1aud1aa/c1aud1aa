@@ -22,6 +22,7 @@
   <link rel="preload" as="image" href="assets/img/profilo.webp" fetchpriority="high">
   <link rel="modulepreload" href="js/content.js">
   <link rel="modulepreload" href="js/tirocini.js">
+  <link rel="modulepreload" href="js/illustrations.js">
   <link rel="stylesheet" href="css/style.css">
   <script type="module" src="js/app.js"></script>
 </head>
@@ -44,6 +45,7 @@
       <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
       <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
       <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
       <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
     </defs>
   </svg>
@@ -89,7 +91,7 @@
             <span class="line"><span class="word">Claudia</span></span>
             <span class="line"><em class="word">Stefanelli</em></span>
           </h1>
-          <p class="lead" data-a data-t="home.lead">Unisco il rigore dei protocolli clinici all’ascolto delle persone. Oggi infermiera di riferimento in reparto, domani specialista negli accessi vascolari.</p>
+          <p class="lead" data-a data-t="home.lead">Unisco il rigore dei protocolli clinici all’ascolto delle persone. Infermiera di riferimento in reparto, con un Master in impianto e gestione degli accessi vascolari.</p>
           <div class="ctas" data-a>
             <button class="btn btn-primary magnet" type="button" data-go="1"><span data-t="home.cta1">Scopri il percorso</span><svg><use href="#i-arrow"/></svg></button>
             <button class="btn btn-ghost magnet" type="button" data-go="6"><span data-t="home.cta2">Contattami</span></button>
@@ -100,7 +102,7 @@
             <img src="assets/img/profilo.webp" width="337" height="470" alt="Ritratto di Claudia Stefanelli" data-alt="home.photoAlt" fetchpriority="high" decoding="async">
           </div>
           <span class="badge badge-a depth" style="--d:-22"><span class="live"></span><span data-t="home.badge1">In servizio · OPSA</span></span>
-          <span class="badge badge-b depth" style="--d:28"><svg><use href="#i-cap"/></svg><span data-t="home.badge2">Master AVIG · 2026</span></span>
+          <span class="badge badge-b depth" style="--d:28"><svg><use href="#i-cap"/></svg><span data-t="home.badge2">Master AVIG · Concluso</span></span>
         </div>
         <p class="hint" data-a><span class="hint-desk" data-t="home.hintDesk">Rotella o ↑ ↓ per navigare</span><span class="hint-touch" data-t="home.hintTouch">Swipe ↑ per iniziare</span></p>
       </div>
@@ -117,10 +119,10 @@
     <div class="sheet-backdrop" data-close></div>
     <article class="sheet-panel">
       <div class="sheet-grab" aria-hidden="true"></div>
-      <figure class="sheet-hero">
-        <img alt="" width="640" height="400" decoding="async">
+      <figure class="sheet-hero tint-lav">
+        <div class="sheet-art" aria-hidden="true"></div>
         <figcaption>
-          <span class="chip chip-glass sheet-area"></span>
+          <span class="chip chip-soft sheet-area"></span>
           <h2 id="sheet-title"></h2>
         </figcaption>
       </figure>
