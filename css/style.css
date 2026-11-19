@@ -298,14 +298,12 @@ em { font-style: italic; }
 .hint-touch { display: none; }
 /* first-load hero intro: CSS-driven and transform-only, so the text is painted immediately (LCP-friendly) */
 @keyframes rise { from { transform: translate3d(0, 22px, 0); } }
-@keyframes wordUp { from { transform: translate3d(0, 105%, 0) rotate(4deg); } }
 .intro .home-copy > [data-a], .intro .home-visual, .intro .hint { animation: rise 1s var(--ease) backwards; }
 .intro .home-copy > :nth-child(3) { animation-delay: .12s; }
 .intro .home-copy > :nth-child(4) { animation-delay: .2s; }
 .intro .home-visual { animation-delay: .08s; }
 .intro .hint { animation-delay: .3s; }
-.intro .name .word { animation: wordUp 1.1s var(--ease) backwards; }
-.intro .name .line + .line .word { animation-delay: .12s; }
+.intro .name { animation: rise 1s var(--ease) .04s backwards; }
 
 /* ---------- 1 · Profile ---------- */
 .profile { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: clamp(24px, 5vw, 80px); }
