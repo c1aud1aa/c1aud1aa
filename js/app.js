@@ -273,6 +273,7 @@ function setupScene(scene) {
       marks.forEach((m, k) => m.classList.toggle('on', k === idx));
     };
     rail.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    rail._dots = update;
     update();
   });
   // tabs
@@ -322,6 +323,8 @@ function enterScene(scene, delay = 0) {
   }
   $$('[data-count]', scene).forEach((el) => countUp(el, delay + 300));
   $$('.bar i', scene).forEach((b) => { b.style.animation = 'none'; b.offsetWidth; b.style.animation = ''; });
+  // carousels were built while hidden (display:none): refresh their dots now
+  $$('[data-rail]', scene).forEach((r) => r._dots?.());
 }
 
 function countUp(el, delay) {

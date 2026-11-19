@@ -145,11 +145,11 @@ em { font-style: italic; }
 .scene {
   position: absolute; inset: 0;
   padding: var(--top) calc(var(--gutter) + 36px) var(--bot) var(--gutter);
-  visibility: hidden;
+  display: none;
   background: var(--scene-bg, var(--bg));
   contain: layout paint;
 }
-.scene.is-active, .scene.is-leaving { visibility: visible; }
+.scene.is-active, .scene.is-leaving { display: block; }
 .scene.is-active { z-index: 2; }
 .scene.is-leaving { z-index: 1; }
 .scene[data-i="0"] { --scene-bg: radial-gradient(120% 90% at 85% 15%, #ece2fd 0%, transparent 55%), radial-gradient(90% 80% at 0% 100%, #f1e8fb 0%, transparent 60%), #f7f3fd; }
