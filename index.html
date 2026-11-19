@@ -104,7 +104,7 @@
           <span class="badge badge-a depth" style="--d:-22"><span class="live"></span><span data-t="home.badge1">In servizio · OPSA</span></span>
           <span class="badge badge-b depth" style="--d:28"><svg><use href="#i-cap"/></svg><span data-t="home.badge2">Master AVIG · Concluso</span></span>
         </div>
-        <p class="hint" data-a><span class="hint-desk" data-t="home.hintDesk">Rotella o ↑ ↓ per navigare</span><span class="hint-touch" data-t="home.hintTouch">Swipe ↑ per iniziare</span></p>
+        <p class="hint" data-a><span class="hint-desk" data-t="home.hintDesk">Rotella o ↑ ↓ per navigare</span><span class="hint-touch" data-t="home.hintTouch">Scorri ↑ per iniziare</span></p>
       </div>
     </section>
     <section class="scene" id="profilo" data-i="1" aria-labelledby="h-1"></section>
@@ -126,7 +126,7 @@
           <h2 id="sheet-title"></h2>
         </figcaption>
       </figure>
-      <div class="sheet-tabs" role="tablist">
+      <div class="sheet-tabs" role="tablist" aria-label="Dettagli del tirocinio">
         <button role="tab" type="button" id="st-a" aria-controls="sp-a" aria-selected="true"></button>
         <button role="tab" type="button" id="st-s" aria-controls="sp-s" aria-selected="false" tabindex="-1"></button>
       </div>
@@ -136,7 +136,7 @@
       </div>
       <footer class="sheet-foot">
         <button class="icon-btn" type="button" data-step="-1"><svg><use href="#i-left"/></svg></button>
-        <span class="sheet-count"></span>
+        <span class="sheet-count" aria-live="polite"></span>
         <button class="icon-btn" type="button" data-step="1"><svg><use href="#i-right"/></svg></button>
       </footer>
       <button class="icon-btn sheet-close" type="button" data-close><svg><use href="#i-close"/></svg></button>

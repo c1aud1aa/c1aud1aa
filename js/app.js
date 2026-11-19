@@ -16,6 +16,14 @@ const pad = (n) => String(n).padStart(2, '0');
 const pick = (v, lang) => (v && typeof v === 'object' && !Array.isArray(v) ? v[lang] : v);
 const icon = (id) => `<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
 
+// Numbers: Italian keeps "1800" as written in the CV, English uses "1,800"
+const num = (n) => new Intl.NumberFormat(lang === 'it' ? 'it-IT' : 'en-GB', { useGrouping: lang === 'en' }).format(n);
+// Odometer: every digit is a column of 0-9 (twice) that rolls into place with a transform
+const ODO_DIGITS = '01234567890123456789'.split('').map((d) => `<span>${d}</span>`).join('');
+const odo = (text) => `<span class="odo" aria-hidden="true">${[...text].map((ch) => (/\d/.test(ch)
+  ? `<span class="odo-col"><span class="odo-fit">${ch}</span><span class="odo-strip" style="--n:${10 + Number(ch)}">${ODO_DIGITS}</span></span>`
+  : `<span class="odo-sep">${ch}</span>`)).join('')}</span>`;
+
 let lang = 'it';
 let current = 0;
 let busy = false;
@@ -36,7 +44,10 @@ function getKey(obj, path) {
 function applyStatic() {
   const t = UI[lang];
   document.documentElement.lang = lang;
+  document.title = t.title;
   $('meta[name="description"]').setAttribute('content', t.meta);
+  $('.nav').setAttribute('aria-label', t.navLabel);
+  $('.sheet-tabs').setAttribute('aria-label', t.clin.details);
   $$('[data-t]').forEach((el) => { const v = getKey(t, el.dataset.t); if (v != null) el.textContent = v; });
   $$('[data-alt]').forEach((el) => { el.alt = getKey(t, el.dataset.alt); });
   $$('[data-nav]').forEach((el) => { el.textContent = t.nav[+el.dataset.nav]; });
@@ -82,7 +93,7 @@ const TPL = {
         <div class="stats">
           ${t.stats.map(([n, suf, label]) => `
             <div class="card stat lift" data-a>
-              <b><span data-count="${n}">${n.toLocaleString(lang === 'it' ? 'it-IT' : 'en-GB')}</span><small>${suf}</small></b>
+              <b><span class="sr">${num(n)}${suf}</span>${odo(num(n))}<small aria-hidden="true">${suf}</small></b>
               <span>${label}</span>
             </div>`).join('')}
         </div>
@@ -273,8 +284,7 @@ function setupScene(scene) {
       marks.forEach((m, k) => m.classList.toggle('on', k === idx));
     };
     rail.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
-    rail._dots = update;
-    update();
+    rail._dots = update; // run by enterScene once the scene is laid out
   });
   // tabs
   const tabs = $$('.tabs [role="tab"]', scene);
@@ -321,24 +331,18 @@ function enterScene(scene, delay = 0) {
       { duration: 1100, delay: delay + 80 + k * 120, easing: EASE, fill: 'backwards' },
     ));
   }
-  $$('[data-count]', scene).forEach((el) => countUp(el, delay + 300));
-  $$('.bar i', scene).forEach((b) => { b.style.animation = 'none'; b.offsetWidth; b.style.animation = ''; });
+  if (!reduce) {
+    // stats: each digit column rolls through 0-9 and settles on its value (transform only)
+    $$('.odo-strip', scene).forEach((s, k) => {
+      const n = Number(s.style.getPropertyValue('--n'));
+      s.animate(
+        [{ transform: 'translate3d(-50%,0,0)' }, { transform: `translate3d(-50%,${-n}em,0)` }],
+        { duration: 1500 + k * 40, delay: delay + 220 + k * 70, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' },
+      );
+    });
+  }
   // carousels were built while hidden (display:none): refresh their dots now
   $$('[data-rail]', scene).forEach((r) => r._dots?.());
-}
-
-function countUp(el, delay) {
-  const to = +el.dataset.count;
-  const fmt = new Intl.NumberFormat(lang === 'it' ? 'it-IT' : 'en-GB');
-  if (reduce || to < 5) { el.textContent = fmt.format(to); return; }
-  const t0 = performance.now() + delay, dur = 1400;
-  el.textContent = '0';
-  const tick = (now) => {
-    const p = Math.min(1, Math.max(0, (now - t0) / dur));
-    el.textContent = fmt.format(Math.round(to * (1 - Math.pow(1 - p, 4))));
-    if (p < 1) requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
 }
 
 /* ---------------- Navigation ---------------- */
@@ -353,8 +357,12 @@ function updateChrome(i) {
   try { history.replaceState(null, '', i ? `#${ids[i]}` : location.pathname + location.search); } catch { /* sandboxed */ }
 }
 
+// A request made during a transition is queued (last one wins) instead of being dropped
+let pending = null;
 function go(i, origin) {
-  if (busy || i === current || i < 0 || i >= scenes.length) return;
+  if (i < 0 || i >= scenes.length) return;
+  if (busy) { pending = { i, origin }; return; }
+  if (i === current) return;
   busy = true;
   ensure(i);
   const from = scenes[current];
@@ -370,7 +378,10 @@ function go(i, origin) {
   const done = () => {
     from.classList.remove('is-leaving');
     busy = false;
-    $(`#h-${i === 0 ? 'home' : i}`)?.focus({ preventScroll: true });
+    const queued = pending;
+    pending = null;
+    if (queued && queued.i !== current) go(queued.i, queued.origin);
+    else $(`#h-${i === 0 ? 'home' : i}`)?.focus({ preventScroll: true });
   };
 
   if (reduce) {
@@ -397,8 +408,9 @@ function go(i, origin) {
   a.finished.then(done, done);
 }
 
-const next = () => go(current + 1);
-const prev = () => go(current - 1);
+const goal = () => (pending ? pending.i : current);
+const next = () => go(Math.min(goal() + 1, scenes.length - 1));
+const prev = () => go(Math.max(goal() - 1, 0));
 
 document.addEventListener('click', (e) => {
   const g = e.target.closest('[data-go]');
@@ -431,7 +443,7 @@ addEventListener('wheel', (e) => {
   lastWheel = now;
   if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
   if (canScroll(e.target, e.deltaY)) return;
-  if (gestureUsed || busy) return;
+  if (gestureUsed) return;
   wheelAcc += e.deltaY;
   if (Math.abs(wheelAcc) > 30) {
     gestureUsed = true;
@@ -459,7 +471,9 @@ stage.addEventListener('touchend', (e) => {
 
 addEventListener('keydown', (e) => {
   if (sheet.open || e.altKey || e.ctrlKey || e.metaKey) return;
-  if (e.target.closest('input, textarea, [role="tab"]') && /Arrow(Left|Right)/.test(e.key)) return;
+  const el = e.target instanceof Element ? e.target : document.body;
+  if (el.closest('input, textarea, [role="tab"]') && /Arrow(Left|Right)/.test(e.key)) return;
+  if (e.repeat && /Arrow|Page/.test(e.key)) { e.preventDefault(); return; } // no runaway when a key is held
   switch (e.key) {
     case 'ArrowDown': case 'PageDown': next(); break;
     case 'ArrowUp': case 'PageUp': prev(); break;
@@ -547,97 +561,149 @@ if (fineHover && !reduce) {
 /* ---------------- Detail sheet ---------------- */
 const sheet = $('#sheet');
 const panel = $('.sheet-panel', sheet);
-let sheetIdx = 0, sheetFrom = null, closing = false;
+const hero = $('.sheet-hero', sheet);
+const sheetBody = $('.sheet-body', sheet);
+const backdrop = $('.sheet-backdrop', sheet);
+const panes = { a: $('#sp-a'), s: $('#sp-s') };
+const tabBtns = { a: $('#st-a'), s: $('#st-s') };
+let sheetIdx = 0, sheetFrom = null, closing = false, sheetTabKey = 'a';
+const isPhone = () => innerWidth <= 820;
+
+// soft fade at the bottom of the list while there is still something to scroll
+function updateFade() {
+  sheetBody.classList.toggle('has-more', sheetBody.scrollHeight - sheetBody.clientHeight - sheetBody.scrollTop > 4);
+}
+sheetBody.addEventListener('scroll', updateFade, { passive: true });
 
 function fillSheet(i) {
   const x = TIROCINI[i], t = UI[lang].clin;
-  $('.sheet-hero', sheet).className = `sheet-hero tint-${TINT[x.area]}`;
+  hero.className = `sheet-hero tint-${TINT[x.area]}`;
   $('.sheet-art', sheet).innerHTML = art(x.id);
   $('#sheet-title').textContent = x[lang].t;
   $('.sheet-area', sheet).textContent = `${x.id === 'blsd' ? t.course : t.placement} · ${t.areas[x.area]}`;
-  $('#sp-a').innerHTML = x[lang].a.map((s) => `<li>${s}</li>`).join('');
-  $('#sp-s').innerHTML = x[lang].s.map((s) => `<li>${s}</li>`).join('');
+  panes.a.innerHTML = x[lang].a.map((s) => `<li>${s}</li>`).join('');
+  panes.s.innerHTML = x[lang].s.map((s) => `<li>${s}</li>`).join('');
   $('.sheet-count', sheet).textContent = `${pad(i + 1)} / ${TIROCINI.length}`;
-  $('.sheet-body', sheet).scrollTop = 0;
 }
 
-function sheetTab(which) {
-  const a = which === 'a';
-  $('#st-a').setAttribute('aria-selected', String(a)); $('#st-a').tabIndex = a ? 0 : -1;
-  $('#st-s').setAttribute('aria-selected', String(!a)); $('#st-s').tabIndex = a ? -1 : 0;
-  $('#sp-a').hidden = !a; $('#sp-s').hidden = a;
-  stagger($$('li', a ? $('#sp-a') : $('#sp-s')), 0, 35);
+// Exactly one list is shown: activities (a) OR skills (s).
+// The incoming list slides in from the side of its tab, items cascade in.
+function sheetTab(key, { animate = true, dir } = {}) {
+  const prevKey = sheetTabKey;
+  sheetTabKey = key;
+  for (const k of ['a', 's']) {
+    const on = k === key;
+    tabBtns[k].setAttribute('aria-selected', String(on));
+    tabBtns[k].tabIndex = on ? 0 : -1;
+    panes[k].hidden = !on;
+    panes[k].getAnimations({ subtree: true }).forEach((an) => an.cancel());
+  }
+  sheetBody.scrollTop = 0;
+  updateFade();
+  if (!animate || reduce) return;
+  const pane = panes[key];
+  const side = dir ?? (key === prevKey ? 0 : key === 'a' ? -1 : 1);
+  pane.animate(
+    [{ opacity: 0, transform: `translate3d(${side * 20}px,0,0)` }, { opacity: 1, transform: 'none' }],
+    { duration: 380, easing: EASE },
+  );
+  [...pane.children].forEach((li, k) => li.animate(
+    [{ opacity: 0, transform: 'translate3d(0,8px,0)' }, { opacity: 1, transform: 'none' }],
+    { duration: 420, delay: 40 + k * 28, easing: EASE, fill: 'backwards' },
+  ));
 }
+
+// Container transform: the panel starts as the tile (moved + clipped, never scaled, so text is not distorted)
+function tileFrame(el) {
+  const a = el.getBoundingClientRect(), b = panel.getBoundingClientRect();
+  const dx = a.left + a.width / 2 - (b.left + b.width / 2);
+  const dy = a.top + a.height / 2 - (b.top + b.height / 2);
+  const ix = Math.max(0, (b.width - a.width) / 2), iy = Math.max(0, (b.height - a.height) / 2);
+  return { transform: `translate3d(${dx}px,${dy}px,0)`, clipPath: `inset(${iy}px ${ix}px round 18px)` };
+}
+const FULL = { transform: 'none', clipPath: 'inset(0px 0px round 28px)' };
 
 function openSheet(i, fromEl) {
   sheetIdx = i; sheetFrom = fromEl;
   fillSheet(i);
-  sheetTab('a');
+  sheetTab('a', { animate: false });
   sheet.showModal();
   closing = false;
+  updateFade();
   if (reduce) return;
-  $('.sheet-backdrop', sheet).animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, easing: EASE });
-  const mobile = innerWidth <= 820;
-  if (mobile || !fromEl) {
-    panel.animate([{ transform: 'translate3d(0,100%,0)' }, { transform: 'none' }], { duration: 650, easing: EASE });
+  backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, easing: EASE });
+  if (isPhone() || !fromEl) {
+    panel.animate([{ transform: 'translate3d(0,100%,0)' }, { transform: 'none' }], { duration: 620, easing: EASE });
   } else {
-    const a = fromEl.getBoundingClientRect(), b = panel.getBoundingClientRect();
-    const sx = a.width / b.width, sy = a.height / b.height;
-    const dx = a.left + a.width / 2 - (b.left + b.width / 2), dy = a.top + a.height / 2 - (b.top + b.height / 2);
-    panel.animate(
-      [{ transform: `translate3d(${dx}px,${dy}px,0) scale(${sx},${sy})`, opacity: 0.4 }, { transform: 'none', opacity: 1 }],
-      { duration: 700, easing: EASE },
-    );
+    panel.animate([tileFrame(fromEl), FULL], { duration: 680, easing: EASE_IO });
   }
-  stagger($$('.sheet-tabs, #sp-a li', sheet), 250, 40);
+  stagger($$('.sheet-tabs, #sp-a li', sheet), 260, 34);
 }
 
 function closeSheet() {
   if (!sheet.open || closing) return;
   closing = true;
-  const finish = () => { sheet.close(); closing = false; panel.style.transform = ''; sheetFrom?.focus({ preventScroll: true }); };
-  if (reduce) return finish();
-  const mobile = innerWidth <= 820;
-  $('.sheet-backdrop', sheet).animate([{ opacity: 1 }, { opacity: 0 }], { duration: 350, easing: EASE, fill: 'forwards' });
-  panel.animate(
-    mobile ? [{ transform: panel.style.transform || 'none' }, { transform: 'translate3d(0,100%,0)' }]
-      : [{ transform: 'none', opacity: 1 }, { transform: 'translate3d(0,24px,0) scale(.96)', opacity: 0 }],
-    { duration: 380, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' },
-  ).finished.then(() => {
+  const tile = $(`[data-tile="${sheetIdx}"]`);
+  const finish = () => {
     panel.getAnimations().forEach((an) => an.cancel());
-    $('.sheet-backdrop', sheet).getAnimations().forEach((an) => an.cancel());
-    finish();
-  });
+    backdrop.getAnimations().forEach((an) => an.cancel());
+    panel.style.transform = '';
+    sheet.close();
+    closing = false;
+    (tile || sheetFrom)?.focus({ preventScroll: true });
+  };
+  if (reduce) { finish(); return; }
+  backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, easing: EASE, fill: 'forwards' });
+  let anim;
+  if (isPhone()) {
+    anim = panel.animate([{ transform: panel.style.transform || 'none' }, { transform: 'translate3d(0,100%,0)' }],
+      { duration: 380, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+  } else if (tile && tile.offsetParent) {
+    anim = panel.animate([FULL, tileFrame(tile)], { duration: 460, easing: EASE_IO, fill: 'forwards' });
+    panel.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, delay: 300, easing: 'linear', fill: 'forwards' });
+  } else {
+    anim = panel.animate([{ transform: 'none', opacity: 1 }, { transform: 'translate3d(0,24px,0) scale(.96)', opacity: 0 }],
+      { duration: 360, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+  }
+  anim.finished.then(finish, finish);
 }
 
+// Previous / next placement: content swaps instantly and slides in from the travel direction.
+// The selected tab (Attività / Competenze) is kept while browsing.
 function stepSheet(d) {
   sheetIdx = (sheetIdx + d + TIROCINI.length) % TIROCINI.length;
   sheetFrom = $(`[data-tile="${sheetIdx}"]`);
-  const hero = $('.sheet-hero', sheet);
-  if (reduce) { fillSheet(sheetIdx); sheetTab('a'); return; }
-  hero.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translate3d(${-d * 30}px,0,0)` }], { duration: 180, easing: 'ease-in' })
-    .finished.then(() => {
-      fillSheet(sheetIdx); sheetTab('a');
-      hero.animate([{ opacity: 0, transform: `translate3d(${d * 30}px,0,0)` }, { opacity: 1, transform: 'none' }], { duration: 420, easing: EASE });
-    });
+  fillSheet(sheetIdx);
+  sheetTab(sheetTabKey, { dir: d });
+  if (reduce) return;
+  for (const el of [$('.sheet-art', sheet), $('figcaption', hero)]) {
+    el.getAnimations().forEach((an) => an.cancel());
+    el.animate([{ opacity: 0, transform: `translate3d(${d * 26}px,0,0)` }, { opacity: 1, transform: 'none' }],
+      { duration: 440, easing: EASE });
+  }
 }
 
 sheet.addEventListener('click', (e) => {
-  if (e.target.closest('[data-close]')) closeSheet();
+  if (e.target.closest('[data-close]')) { closeSheet(); return; }
   const s = e.target.closest('[data-step]');
-  if (s) stepSheet(+s.dataset.step);
-  if (e.target.closest('#st-a')) sheetTab('a');
-  if (e.target.closest('#st-s')) sheetTab('s');
+  if (s) { stepSheet(Number(s.dataset.step)); return; }
+  const tab = e.target.closest('[role="tab"]');
+  if (tab) {
+    const key = tab.id === 'st-a' ? 'a' : 's';
+    if (key !== sheetTabKey) sheetTab(key);
+  }
 });
 sheet.addEventListener('cancel', (e) => { e.preventDefault(); closeSheet(); });
 sheet.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight' && !e.target.closest('[role="tab"]')) stepSheet(1);
-  if (e.key === 'ArrowLeft' && !e.target.closest('[role="tab"]')) stepSheet(-1);
-  if (e.target.closest('[role="tab"]') && /Arrow(Left|Right)/.test(e.key)) {
-    const toS = e.target.id === 'st-a';
-    sheetTab(toS ? 's' : 'a');
-    $(toS ? '#st-s' : '#st-a').focus();
+  if (!/^Arrow(Left|Right)$/.test(e.key)) return;
+  e.preventDefault();
+  if (e.target.closest('[role="tab"]')) { // arrows move between the two tabs
+    const key = sheetTabKey === 'a' ? 's' : 'a';
+    sheetTab(key);
+    tabBtns[key].focus();
+    return;
   }
+  stepSheet(e.key === 'ArrowRight' ? 1 : -1);
 });
 
 // drag-to-dismiss on mobile (from hero/handle)

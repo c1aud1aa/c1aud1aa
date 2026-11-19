@@ -288,10 +288,25 @@ export const TINT = {
   onco: 'rose', peds: 'rose', community: 'rose', emergency: 'rose',
 };
 
+// Optical centring: offsets measured on each drawing's bounding box so its visual centre
+// sits on the halo centre (80, 60). The halo stays put, except for the PICC lens it frames.
+const OFFSET = {
+  terapia: [1, 0], impianto: [2, 2], day: [4, 1], chirurgia: [1.5, -3], fisiopatologia: [0, 3],
+  nefrologia: [-1.5, -4.5], psichiatria: [-1.5, -3.5], comunita: [-3, -1], assistenza: [-2.5, 0.5],
+  punto: [0, -3], blsd: [-1.5, -5.5], opsa: [2.5, 0.5], gym: [-3.5, -6], desk: [-2.5, 3],
+  aid: [-0.5, 1], avig: [0, 3.5], nursing: [0, -2], liceo: [0, -3], pub: [2.5, 4],
+};
+const MOVE_HALO = new Set(['impianto']);
+
 let uid = 0;
 export function art(key) {
   const body = ART[key];
   if (!body) return '';
-  const id = `ill${++uid}`;
-  return `<svg class="ill" viewBox="0 0 160 120" aria-hidden="true" focusable="false">${body.replace(/\$u/g, id)}</svg>`;
+  let inner = body.replace(/\$u/g, `ill${++uid}`);
+  const off = OFFSET[key];
+  if (off) {
+    const cut = MOVE_HALO.has(key) ? 0 : inner.indexOf('/>') + 2; // first element is the halo
+    inner = `${inner.slice(0, cut)}<g transform="translate(${off[0]} ${off[1]})">${inner.slice(cut)}</g>`;
+  }
+  return `<svg class="ill" viewBox="0 0 160 120" aria-hidden="true" focusable="false">${inner}</svg>`;
 }

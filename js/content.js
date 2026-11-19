@@ -9,7 +9,9 @@ export const CONTACT = {
 
 export const UI = {
   it: {
+    title: 'Claudia Stefanelli — Infermiera',
     meta: 'Claudia Stefanelli — Infermiera a Padova. Esperienze, tirocini clinici, formazione e competenze.',
+    navLabel: 'Sezioni',
     nav: ['Home', 'Profilo', 'Esperienze', 'Tirocini', 'Formazione', 'Competenze', 'Contatti'],
     home: {
       eyebrow: 'Infermiera · Padova',
@@ -19,7 +21,7 @@ export const UI = {
       badge1: 'In servizio · OPSA',
       badge2: 'Master AVIG · Concluso',
       hintDesk: 'Rotella o ↑ ↓ per navigare',
-      hintTouch: 'Swipe ↑ per iniziare',
+      hintTouch: 'Scorri ↑ per iniziare',
       photoAlt: 'Ritratto di Claudia Stefanelli',
     },
     profile: {
@@ -41,7 +43,8 @@ export const UI = {
     clin: {
       kicker: 'Tirocini clinici',
       title: '1800 ore, <em>13 reparti.</em>',
-      sub: 'Tocca una scheda per scoprire attività e competenze.',
+      sub: 'Seleziona una scheda per scoprire attività e competenze.',
+      details: 'Dettagli del tirocinio',
       placement: 'Tirocinio',
       course: 'Corso',
       tabA: 'Attività',
@@ -74,10 +77,11 @@ export const UI = {
       copied: 'Email copiata negli appunti',
       credit: 'Sito realizzato in collaborazione con Dott. Andrea Perozzo',
     },
-    swipe: 'Scorri',
   },
   en: {
+    title: 'Claudia Stefanelli — Registered Nurse',
     meta: 'Claudia Stefanelli — Registered Nurse in Padua, Italy. Experience, clinical placements, education and skills.',
+    navLabel: 'Sections',
     nav: ['Home', 'Profile', 'Experience', 'Placements', 'Education', 'Skills', 'Contact'],
     home: {
       eyebrow: 'Registered Nurse · Padua',
@@ -109,7 +113,8 @@ export const UI = {
     clin: {
       kicker: 'Clinical placements',
       title: '1,800 hours, <em>13 wards.</em>',
-      sub: 'Tap a card to see activities and skills.',
+      sub: 'Select a card to see activities and skills.',
+      details: 'Placement details',
       placement: 'Placement',
       course: 'Course',
       tabA: 'Activities',
@@ -140,9 +145,8 @@ export const UI = {
       placeVal: 'Mestrino (Padua), Italy',
       copy: 'Copy email',
       copied: 'Email copied to clipboard',
-      credit: 'Website built in collaboration with Dr. Andrea Perozzo',
+      credit: 'Website built in collaboration with Dr Andrea Perozzo',
     },
-    swipe: 'Swipe',
   },
 };
 
@@ -163,7 +167,7 @@ export const EXPERIENCE = [
       en: [
         'Reference nurse on the ward: I plan and coordinate daily operational activities',
         'Drug therapy, advanced wound care and vital signs with full documentation traceability',
-        'Support and mediation with families of frail residents, including cognitive decline',
+        'Support and mediation with families of frail residents, including those with cognitive decline',
       ],
     },
   },
