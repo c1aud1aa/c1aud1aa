@@ -233,13 +233,27 @@ const TPL = {
   },
 };
 
+// Hidden scenes are built lazily (on navigation or when the browser is idle),
+// so the first load only paints Home.
+const rendered = new Set();
 function render(i) {
   if (TPL[i]) scenes[i].innerHTML = TPL[i]();
   setupScene(scenes[i]);
+  rendered.add(i);
 }
 
-function renderAll() {
-  for (let i = 1; i < scenes.length; i++) render(i);
+function ensure(i) {
+  if (i > 0 && !rendered.has(i)) render(i);
+}
+
+function renderLater() {
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(() => cb(), 120));
+  const queue = scenes.map((_, i) => i).filter((i) => i > 0 && !rendered.has(i));
+  const step = (deadline) => {
+    do { ensure(queue.shift()); } while (queue.length && deadline && deadline.timeRemaining() > 8);
+    if (queue.length) idle(step, { timeout: 1500 });
+  };
+  if (queue.length) idle(step, { timeout: 1500 });
 }
 
 /* ---------------- Per-scene behaviour ---------------- */
@@ -339,6 +353,7 @@ function updateChrome(i) {
 function go(i, origin) {
   if (busy || i === current || i < 0 || i >= scenes.length) return;
   busy = true;
+  ensure(i);
   const from = scenes[current];
   const to = scenes[i];
   const dir = i > current ? 1 : -1;
@@ -462,7 +477,7 @@ function setLang(l) {
   lang = l;
   try { localStorage.setItem('lang', l); } catch { /* ignore */ }
   applyStatic();
-  renderAll();
+  [...rendered].forEach(render);
   scenes.forEach((s, k) => { s.inert = k !== current; });
   setParallaxTarget(scenes[current]);
   enterScene(scenes[current], 0);
@@ -657,10 +672,10 @@ async function copy(text) {
 /* ---------------- Boot ---------------- */
 lang = initialLang();
 applyStatic();
-renderAll();
 setupScene(scenes[0]);
 const start = Math.max(0, ids.indexOf(location.hash.slice(1)));
 if (start) {
+  ensure(start);
   scenes[0].classList.remove('is-active');
   scenes[start].classList.add('is-active');
   current = start;
@@ -669,3 +684,4 @@ if (start) {
 updateChrome(current);
 // Home on first load animates via CSS (.intro); other deep-linked scenes use the JS entrance
 if (current !== 0) { scenes[0].classList.remove('intro'); enterScene(scenes[current], 0); }
+renderLater();
