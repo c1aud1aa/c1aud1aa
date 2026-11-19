@@ -667,4 +667,5 @@ if (start) {
   setParallaxTarget(scenes[start]);
 }
 updateChrome(current);
-enterScene(scenes[current], 0);
+// Home on first load animates via CSS (.intro); other deep-linked scenes use the JS entrance
+if (current !== 0) { scenes[0].classList.remove('intro'); enterScene(scenes[current], 0); }
